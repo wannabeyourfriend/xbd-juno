@@ -1,0 +1,11 @@
+.vscode/
+__pycache__/
+
+GAM/
+GBM/
+pre/
+data/
+draw/
+concat.h5
+CNN/
+.venv/

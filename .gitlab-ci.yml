@@ -1,0 +1,19 @@
+juno-probe:
+  image: docker.thudep.com/thudep/physics-data:latest
+  stage: deploy
+  tags:
+    - containerd
+  script: |
+    export JUNOPROBE_SCORE=result
+    ln -s /srv data
+    ln -s /srv/concat.h5 concat.h5
+    make score > log || (cat log; exit 1)
+    echo "Your result is $(cat result)"
+    curl -L --fail-with-body 'https://leaderboard.thudep.com/' \
+      -H 'Content-Type: application/json' \
+      -d "{\"team\":\"${CI_PROJECT_NAME}\",\"score\":$(cat result | cut -d , -f 1),\"time\":\"$(date --rfc-3339=seconds)\",\"secret\":\"${PD_SECRET}\"}" && echo "Successfully uploaded score!"
+  rules:
+    - if: '$CI_COMMIT_TAG'
+      when: always
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TAG == null'
+      when: manual
