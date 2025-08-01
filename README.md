@@ -90,7 +90,7 @@ $\log \mathcal{L}=\sum_{i=1}^N(-\int_0^TR(r_i,\theta_i,t)\mathrm{d}t + \sum_{j=1
 setup environment
 ```bash
 virtualenv env
-source env/bin/activate
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
