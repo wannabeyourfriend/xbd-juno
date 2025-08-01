@@ -9,3 +9,4 @@ draw/
 concat.h5
 CNN/
 .venv/
+venv/

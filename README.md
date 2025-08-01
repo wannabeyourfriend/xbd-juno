@@ -80,3 +80,27 @@ $\log \mathcal{L}=\sum_{i=1}^N(-\int_0^TR(r_i,\theta_i,t)\mathrm{d}t + \sum_{j=1
 评分时, 会将你的 probe 函数 $R(r,\theta,t)$ 输入到 $\log \mathcal{L}$ 中。所以评分实际上是个 log likelihood，因此可能有负值。分数越大越好。
 
 各位提交后，可以在 Build - Pipelines 页面手动触发 CI 评测并上传分数，见[排行榜](https://leaderboard.thudep.com/)。此外，CI 的镜像基于[`python:3.13.5-bookworm`](https://github.com/adamanteye/images/blob/physics-data/Dockerfile)并且打包了数据集，如果镜像中不存在你想要的库，请联系助教修改镜像或在 Makefile 中用 pip 添加清华源进行安装。
+
+## My solutions
+
+使用virtual env来管理env环境
+
+
+
+setup environment
+```bash
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+
+download dataset
+```bash
+make datas
+```
+train and validate model
+
+
+
+
+

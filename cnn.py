@@ -41,7 +41,7 @@ def create_spatial_cnn_model(input_shape):
         layers.Dense(64, activation='relu'),
         layers.Dropout(0.1),
         
-        layers.Dense(1, activation='exponential')
+        layers.Dense(1, activation='linear')  # 改为线性激活
     ])
     
     return model
@@ -73,7 +73,7 @@ def create_temporal_cnn_model(input_shape):
         layers.Dense(64, activation='relu'),
         layers.Dropout(0.1),
         
-        layers.Dense(1, activation='exponential')
+        layers.Dense(1, activation='linear')  # 改为线性激活
     ])
     
     return model
@@ -123,14 +123,6 @@ def preprocess_temporal_data(table_t):
     
     return X_t, nPE_t
 
-# Replace this line
-# @keras.saving.register_keras_serializable()
-# With this
-@tf.keras.utils.register_keras_serializable()
-def custom_poisson_loss(y_true, y_pred):
-    y_pred = tf.maximum(y_pred, 1e-8)
-    return tf.reduce_mean(y_pred - y_true * tf.math.log(y_pred))
-
 def main():
     parser = argparse.ArgumentParser(description="CNN训练脚本")
     parser.add_argument("-i", dest="ipt", nargs="+", type=str, help="输入parquet文件")
@@ -176,13 +168,13 @@ def main():
     
     model_s.compile(
         optimizer=optimizer_s,
-        loss=custom_poisson_loss,
+        loss='mse',  # 使用MSE损失函数
         metrics=['mae', 'mse']
     )
     
     model_t.compile(
         optimizer=optimizer_t,
-        loss=custom_poisson_loss,
+        loss='mse',  # 使用MSE损失函数
         metrics=['mae', 'mse']
     )
     
